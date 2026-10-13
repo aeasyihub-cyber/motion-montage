@@ -1,6 +1,10 @@
 {
   "name": "motion-montage",
-  "owner": { "name": "AEasyI", "url": "https://github.com/aeasyihub-cyber" },
+  "description": "AEasyI plugins: motion-montage, pro motion-graphics videos rendered from code.",
+  "owner": {
+    "name": "AEasyI",
+    "url": "https://github.com/aeasyihub-cyber"
+  },
   "plugins": [
     {
       "name": "motion-montage",
