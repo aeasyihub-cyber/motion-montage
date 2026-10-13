@@ -1,0 +1,11 @@
+{
+  "name": "motion-montage",
+  "owner": { "name": "AEasyI", "url": "https://github.com/aeasyihub-cyber" },
+  "plugins": [
+    {
+      "name": "motion-montage",
+      "source": "./",
+      "description": "Pro-grade motion montage videos from code, with 7 studio agents and QC that measures dead air, sync and loudness."
+    }
+  ]
+}

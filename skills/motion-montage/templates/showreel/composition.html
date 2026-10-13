@@ -1,0 +1,293 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>motion-montage · showreel template</title>
+<!--
+  SHOWREEL TEMPLATE — music-driven kinetic promo, 9:16, 16 s, 6 scenes, 5 different transitions.
+  Demonstrates: fill-the-frame type, char cascades, highlight, strike→swap, counters,
+  parallax camera, velocity motion blur, footage with speed ramp, beat-synced elements, track-in titles.
+  Every value is a function of t. Nothing uses CSS animation, timers or Math.random().
+-->
+<style>
+@font-face { font-family: 'Inter Tight'; src: url(fonts/InterTight.woff2) format('woff2'); font-weight: 100 900; }
+@font-face { font-family: 'Inter Tight'; src: url(fonts/InterTight-Italic.woff2) format('woff2'); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: 'Fraunces'; src: url(fonts/Fraunces.woff2) format('woff2'); font-weight: 100 900; }
+@font-face { font-family: 'Fraunces'; src: url(fonts/Fraunces-Italic.woff2) format('woff2'); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: 'JetBrains Mono'; src: url(fonts/JetBrainsMono-500.woff2) format('woff2'); font-weight: 500; }
+
+:root {
+  --paper: #F2EFE8; --ink: #0F0F12; --accent: #FF4A1C; --muted: #8C877C; --line: rgba(15,15,18,.14);
+  --sans: 'Inter Tight', system-ui, sans-serif; --serif: 'Fraunces', Georgia, serif; --mono: 'JetBrains Mono', monospace;
+}
+html, body { margin: 0; background: #000; }
+#frame { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--ink); font-family: var(--sans); color: var(--ink); }
+.scene { position: absolute; inset: 0; overflow: hidden; }
+.layer { position: absolute; inset: 0; }
+.paper { background: var(--paper); }
+.dark  { background: var(--ink); color: var(--paper); }
+.hot   { background: var(--accent); color: var(--ink); }
+.abs { position: absolute; }
+.mono { font-family: var(--mono); font-size: 26px; letter-spacing: .06em; text-transform: uppercase; }
+.hl { position: relative; display: inline-block; padding: 0 .06em; }
+.hl .hl-bg { position: absolute; left: -.04em; right: -.04em; top: .1em; bottom: .02em; background: var(--accent); transform: scaleX(0); z-index: -1; }
+.hl > span, .hl { isolation: isolate; }
+.strike { position: absolute; left: -2%; right: -2%; top: 52%; height: .085em; background: var(--accent); border-radius: 99px; transform: scaleX(0); }
+.under  { position: absolute; left: 0; right: 0; bottom: -.02em; height: .06em; background: var(--accent); border-radius: 99px; transform: scaleX(0); }
+#grain { position: absolute; inset: 0; width: 1080px; height: 1920px; pointer-events: none; z-index: 999; mix-blend-mode: overlay; opacity: .5; }
+.vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(120% 80% at 50% 45%, transparent 55%, rgba(0,0,0,.45)); }
+</style>
+</head>
+<body>
+<div id="frame">
+
+  <!-- S1 · HOOK: "EVERY FRAME" fills the width ------------------------------------------------ -->
+  <section class="scene paper" id="s1">
+    <div class="layer" data-depth="0.25">
+      <div class="abs mono qc" style="left:60px;top:230px;color:var(--muted)" data-qc="label">Motion Montage · 001</div>
+      <div class="abs mono qc" style="right:60px;top:230px;color:var(--muted)" id="tc" data-qc="timecode">00:00:00</div>
+    </div>
+    <div class="layer" data-depth="1">
+      <div class="abs" style="left:72px;top:560px;width:940px;line-height:.84;font-weight:900;letter-spacing:-.045em">
+        <div><span id="h1a" class="qc" data-qc="EVERY">EVERY</span></div>
+        <div style="margin-top:.03em"><span class="hl qc" id="h1b" data-qc="FRAME"><i class="hl-bg"></i><span id="h1bt">FRAME</span></span></div>
+        <div style="margin-top:.03em"><span id="h1c" class="qc" data-qc="COUNTS" style="margin-left:.06em;font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.03em">counts.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S2 · statement on dark with parallax cards ----------------------------------------------- -->
+  <section class="scene dark" id="s2">
+    <div class="layer" data-depth="0.35">
+      <div class="abs" id="c1" style="left:-80px;top:300px;width:420px;height:560px;border-radius:36px;background:#1A1A20;border:1px solid #2a2a33"></div>
+      <div class="abs" id="c2" style="left:760px;top:1180px;width:400px;height:520px;border-radius:36px;background:#1A1A20;border:1px solid #2a2a33"></div>
+    </div>
+    <div class="layer" data-depth="1">
+      <div class="abs" style="left:76px;top:640px;width:940px">
+        <div id="s2l1" class="qc" data-qc="Motion" style="font-family:var(--serif);font-style:italic;font-weight:300;font-size:250px;line-height:1;letter-spacing:-.03em">Motion</div>
+        <div id="s2l2" class="qc" data-qc="is not" style="font-weight:700;font-size:150px;line-height:1.1;letter-spacing:-.04em;margin:10px 0 0 8px">is not</div>
+        <div style="position:relative;display:inline-block" id="s2l3w"><div id="s2l3" class="qc" data-qc="decoration" style="font-family:var(--serif);font-weight:800;font-size:200px;line-height:1.05;letter-spacing:-.035em;color:var(--accent)">decoration.</div></div>
+      </div>
+    </div>
+    <div class="layer" data-depth="1.8">
+      <div class="abs" id="c3" style="left:640px;top:180px;width:280px;height:280px;border-radius:999px;border:2px solid var(--accent);opacity:.9"></div>
+    </div>
+    <div class="vignette"></div>
+  </section>
+
+  <!-- S3 · the counter + film strip with motion blur ------------------------------------------- -->
+  <section class="scene paper" id="s3">
+    <div class="layer" data-depth="1">
+      <div class="abs qc" id="n60" data-qc="60" style="left:0;width:1080px;top:330px;text-align:center;font-family:var(--serif);font-weight:900;font-size:560px;line-height:1;letter-spacing:-.06em;color:var(--accent)">60</div>
+      <div class="abs qc" id="n60l" data-qc="fps label" style="left:0;width:1080px;top:980px;text-align:center;font-size:64px;font-weight:600;letter-spacing:-.02em">frames every second</div>
+    </div>
+    <div class="layer" data-depth="1.25">
+      <div class="abs" id="strip" style="left:0;top:1120px;height:300px;width:4000px;display:flex;gap:22px"></div>
+    </div>
+    <div class="layer" data-depth="1">
+      <div class="abs qc" id="s3end" data-qc="s3 end" style="left:60px;top:1500px;width:960px;font-size:84px;font-weight:800;letter-spacing:-.035em;line-height:1">each one <span style="font-family:var(--serif);font-style:italic;font-weight:400">designed.</span></div>
+    </div>
+  </section>
+
+  <!-- S4 · strike → swap, beat meter --------------------------------------------------------- -->
+  <section class="scene hot" id="s4">
+    <div class="layer" data-depth="1">
+      <div class="abs" style="left:60px;top:520px;width:960px;font-weight:900;letter-spacing:-.05em;line-height:.95">
+        <div id="s4l1" class="qc" data-qc="Cuts that" style="font-size:170px">Cuts that</div>
+        <div id="s4l2" class="qc" data-qc="land on" style="font-size:170px">land on</div>
+        <div style="font-size:170px;position:relative;height:1.08em;margin-top:.02em;overflow:hidden">
+          <span class="abs" id="s4a" style="left:0;top:0;white-space:nowrap"><span style="position:relative;display:inline-block" id="s4aw">random.<i class="strike" style="background:var(--ink)"></i></span></span>
+          <span class="abs" id="s4b" style="left:0;top:0;white-space:nowrap;font-family:var(--serif);font-style:italic;font-weight:500;color:var(--paper)">the beat.</span>
+        </div>
+      </div>
+      <div class="abs" id="meter" style="left:60px;top:1290px;width:960px;height:220px;display:flex;align-items:flex-end;gap:14px"></div>
+      <div class="abs mono qc" id="bpm" data-qc="bpm" style="left:60px;top:1560px">96 BPM · beat 01</div>
+    </div>
+  </section>
+
+  <!-- S5 · footage in a device, 3D tilt, speed ramp ------------------------------------------ -->
+  <section class="scene dark" id="s5">
+    <div class="layer" data-depth="0.6">
+      <div class="abs qc" id="s5t" data-qc="Footage" style="left:60px;top:250px;font-size:120px;font-weight:900;letter-spacing:-.045em;line-height:.95">Footage,<br><span style="font-family:var(--serif);font-style:italic;font-weight:400;color:var(--accent)">ramped.</span></div>
+    </div>
+    <div class="layer" data-depth="1">
+      <div class="abs" id="phone" style="left:250px;top:560px;width:580px;height:1030px;border-radius:64px;overflow:hidden;background:#222;box-shadow:0 60px 120px rgba(0,0,0,.55);border:10px solid #23232a">
+        <img id="fimg" style="width:100%;height:100%;object-fit:cover;display:block">
+        <div id="fph" class="abs" style="inset:0;background:linear-gradient(160deg,#3a2a6a,#120c22);display:none"></div>
+      </div>
+      <div class="abs mono qc" id="speed" data-qc="speed" style="left:60px;top:1630px;color:var(--paper)">speed 1.00×</div>
+    </div>
+    <div class="vignette"></div>
+  </section>
+
+  <!-- S6 · END CARD: track-in title ----------------------------------------------------------- -->
+  <section class="scene paper" id="s6">
+    <div class="layer" data-depth="1">
+      <div class="abs" style="left:60px;top:700px;width:960px;text-align:center;font-weight:900;line-height:.9;letter-spacing:-.04em">
+        <div><span id="t1" class="qc" data-qc="MOTION">MOTION</span></div>
+        <div><span id="t2" class="qc" data-qc="MONTAGE">MONTAGE</span></div>
+      </div>
+      <div class="abs" id="mark" style="left:510px;top:520px;width:60px;height:60px;background:var(--accent);border-radius:10px"></div>
+      <div class="abs qc" id="s6sub" data-qc="tagline" style="left:0;width:1080px;top:1180px;text-align:center;font-size:52px;font-weight:500;letter-spacing:-.01em">an open-source skill for <span style="font-family:var(--serif);font-style:italic">Claude Code</span></div>
+      <div class="abs mono qc" id="s6url" data-qc="url" style="left:0;width:1080px;top:1290px;text-align:center;color:var(--muted)">github · motion-montage</div>
+    </div>
+  </section>
+
+  <canvas id="grain" width="540" height="960"></canvas>
+</div>
+
+<script src="lib/motion.js"></script>
+<script src="lib/stage.js"></script>
+<script src="lib/text.js"></script>
+<script src="lib/transitions.js"></script>
+<script>
+const { $, $$, set, prog, kf, ease, spring, mix, clamp, text: T } = MM;
+window.COMP = { W: 1080, H: 1920, fps: 60, duration: 16.0 };
+const BPM = 96, BEAT = 60 / BPM;
+
+// Scene table — the edit decision list. Cut points sit on the beat grid (BEAT = 0.625 s).
+const S = [
+  { el: $('#s1'), start: 0.0,  end: 2.5 },   // 4 beats
+  { el: $('#s2'), start: 2.5,  end: 5.0 },
+  { el: $('#s3'), start: 5.0,  end: 7.5 },
+  { el: $('#s4'), start: 7.5,  end: 10.0 },
+  { el: $('#s5'), start: 10.0, end: 12.5 },
+  { el: $('#s6'), start: 12.5, end: 16.0 },
+];
+const CUTS = [
+  { type: 'whip',  dur: 0.32, dir: 'left' },
+  { type: 'zoom',  dur: 0.55 },
+  { type: 'slats', dur: 0.6, n: 7, dir: 'up' },
+  { type: 'sweep', dur: 0.7, dir: 'up', colors: ['#0F0F12', '#F2EFE8'] },
+  { type: 'stack', dur: 0.7 },
+];
+
+let parts = {};
+const FOOT = { dir: 'footage/demo', fps: 30, frames: 0, ext: 'jpg' };
+
+window.setup = async function () {
+  // 1 · fill-the-frame type
+  T.fit($('#h1a'), 900); T.fit($('#h1bt'), 840); T.fit($('#h1c'), 700);
+  T.fit($('#t1'), 900);  T.fit($('#t2'), 900);
+  // 2 · split text once
+  parts.h1a = T.split($('#h1a'), 'chars');
+  parts.h1b = T.split($('#h1bt'), 'chars');
+  parts.h1c = T.split($('#h1c'), 'chars');
+  parts.s2 = [$('#s2l1'), $('#s2l2'), $('#s2l3')].map((el) => T.split(el, 'words'));
+  parts.s3end = T.split($('#s3end'), 'words');
+  parts.s4 = [T.split($('#s4l1'), 'words'), T.split($('#s4l2'), 'words')];
+  parts.s5t = T.split($('#s5t'), 'words');
+  parts.s6sub = T.split($('#s6sub'), 'words');
+  // 3 · procedural elements
+  const strip = $('#strip');
+  for (let i = 0; i < 14; i++) {
+    const d = document.createElement('div');
+    d.style.cssText = `flex:0 0 230px;height:300px;border-radius:22px;position:relative;overflow:hidden;
+      background:linear-gradient(${140 + i * 17}deg, ${i % 3 === 0 ? '#FF4A1C' : '#0F0F12'} 0%, ${i % 2 ? '#2a2a33' : '#55515a'} 100%)`;
+    d.innerHTML = `<div style="position:absolute;left:16px;bottom:14px;font:500 22px 'JetBrains Mono';color:#F2EFE8;letter-spacing:.06em">F ${String(i * 7 + 12).padStart(3, '0')}</div>`;
+    strip.appendChild(d);
+  }
+  const meter = $('#meter');
+  for (let i = 0; i < 16; i++) { const b = document.createElement('div'); b.style.cssText = 'flex:1;height:100%;background:#0F0F12;border-radius:10px;transform-origin:50% 100%'; meter.appendChild(b); }
+  parts.bars = Array.from(meter.children);
+  // 4 · footage (optional): frames in footage/demo/00001.jpg… — count them via a probe image
+  FOOT.frames = window.FOOTAGE_FRAMES || 0;
+  if (!FOOT.frames) { $('#fimg').style.display = 'none'; $('#fph').style.display = 'block'; }
+  // 5 · grain (static)
+  MM.grain($('#grain'), 3, 26);
+  // 6 · sound cues — declared once, exported to the mixer
+  MM.cue(0.02, 'hit'); MM.cue(1.05, 'pop'); MM.cue(1.32, 'swish', { gain: -3 }); MM.cue(2.5, 'whoosh');
+  MM.cue(5.0, 'whoosh', { dur: 0.7, pitch: 0.7 });
+  for (let i = 0; i < 10; i++) MM.cue(5.2 + i * 0.075, 'tick', { gain: -4 });
+  MM.cue(7.5, 'whoosh', { pitch: 1.3 }); MM.cue(8.45, 'swish'); MM.cue(8.95, 'whoosh', { dur: 0.35, pitch: 1.6, gain: -4 });
+  MM.cue(10.0, 'whoosh'); MM.cue(11.0, 'riser', { dur: 0.9, gain: -4 }); MM.cue(12.5, 'whoosh', { pitch: 0.8 });
+  MM.cue(13.0, 'boom', { gain: -6 }); MM.cue(14.0, 'shimmer');
+};
+
+window.render = function (t) {
+  MM.edit(t, S, CUTS);
+
+  /* ---------------- S1 ---------------- */
+  if (t < 3.2) {
+    const L = t - S[0].start;
+    MM.camera($('#s1'), Object.assign(MM.handheld(1, t, 5), { zoom: kf(L, [[0, 1.0], [2.6, 1.035, ease.glide]]) }));
+    // frame 0 is the thumbnail: the first line is already landing at t=0
+    T.cascade(parts.h1a, t, -0.22, { each: 0.035, sp: spring.land, dist: 105, rot: 0 });
+    T.cascade(parts.h1b, t, 0.22, { each: 0.035, sp: spring.land, dist: 105, rot: 0 });
+    T.highlight($('#h1b'), t, 1.0, { dur: 0.3 });
+    $('#h1bt').style.color = t >= 1.15 ? 'var(--paper)' : 'var(--ink)';
+    T.cascade(parts.h1c, t, 1.3, { each: 0.03, dur: 0.6, dist: 110, rot: 8 });
+    $('#tc').textContent = '00:00:' + String(Math.floor(t * 60) % 60).padStart(2, '0');
+  }
+
+  /* ---------------- S2 ---------------- */
+  if (t > 1.9 && t < 5.8) {
+    const L = t - S[1].start;
+    MM.camera($('#s2'), { x: kf(L, [[0, -14], [2.6, 14, ease.glide]]), y: kf(L, [[0, 60], [2.6, -60, ease.glide]]), zoom: 1 });
+    T.rise(parts.s2[0], t, 2.62, { dur: 0.6, blur: 8 });
+    T.rise(parts.s2[1], t, 2.85, { each: 0.07 });
+    T.rise(parts.s2[2], t, 3.05, { dur: 0.6, blur: 8 });
+    set($('#c3'), { rot: L * 20, scale: mix(0.6, 1, ease.snap(clamp((L - 0.2) / 0.8))) });
+  }
+
+  /* ---------------- S3 ---------------- */
+  if (t > 4.4 && t < 8.2) {
+    const L = t - S[2].start;
+    T.count($('#n60'), t, 5.15, 0.85, 0, 60);
+    const pop = t > 6.0 ? spring.pop(t - 6.0) : 0;
+    set($('#n60'), { scale: 1 + Math.sin(clamp((t - 6.0) / 0.25) * Math.PI) * 0.04, y: (1 - prog(t, 5.0, 0.5)) * 80 });
+    set($('#n60l'), { opacity: prog(t, 5.4, 0.3), y: (1 - prog(t, 5.4, 0.5)) * 30 });
+    // film strip travels with constant speed + ease-in start → directional blur from velocity
+    const sx = (tt) => -200 - 520 * ease.outCubic(clamp((tt - 5.0) / 0.6)) - (tt - 5.0) * 260;
+    set($('#strip'), { x: sx(t), mb: MM.blurFrom(sx, null, t, { k: 0.6 }) });
+    T.rise(parts.s3end, t, 6.55, { each: 0.09 });
+  }
+
+  /* ---------------- S4 ---------------- */
+  if (t > 6.9 && t < 10.8) {
+    T.rise(parts.s4[0], t, 7.62, { each: 0.08 });
+    T.rise(parts.s4[1], t, 7.82, { each: 0.08 });
+    set($('#s4a'), { opacity: prog(t, 8.05, 0.2) });
+    T.strike($('#s4aw'), t, 8.45, { dimTo: 0.55 });
+    T.swap($('#s4a'), $('#s4b'), t, 8.95, { dur: 0.42 });
+    // beat meter: each bar jumps on the beat and decays (secondary action = life)
+    const since = ((t - 7.5) % BEAT + BEAT) % BEAT;
+    const beatN = Math.floor((t - 7.5) / BEAT);
+    parts.bars.forEach((b, i) => {
+      const h = 0.18 + 0.82 * Math.abs(Math.sin(i * 1.7 + beatN * 2.3)) * Math.exp(-since * 5.5);
+      const enter = prog(t, 7.6 + i * 0.02, 0.4);
+      set(b, { sy: enter > 0 ? Math.max(0.04, h * enter) : 0, sx: 1 });
+    });
+    $('#bpm').textContent = `96 BPM · beat ${String(Math.max(1, beatN + 1)).padStart(2, '0')}`;
+  }
+
+  /* ---------------- S5 ---------------- */
+  if (t > 9.3 && t < 13.3) {
+    const L = t - S[4].start;
+    // speed ramp: 1× → 0.25× slow-mo → 2.2× snap
+    const src = MM.ramp(L, [[0, 0], [0.8, 0.8], [1.8, 1.05], [2.5, 2.6]]);
+    const spd = MM.vel((x) => MM.ramp(x, [[0, 0], [0.8, 0.8], [1.8, 1.05], [2.5, 2.6]]), L);
+    if (FOOT.frames) MM.footage($('#fimg'), FOOT, 3.2 + src);
+    $('#speed').textContent = `speed ${Math.max(0, spd).toFixed(2)}×`;
+    set($('#phone'), { persp: 1600, ry: kf(L, [[0, -14], [2.5, 10, ease.glide]]), rx: kf(L, [[0, 6], [2.5, -4, ease.glide]]), scale: kf(L, [[0, 0.94], [2.5, 1.0, ease.glide]]) });
+    MM.camera($('#s5'), { y: kf(L, [[0, 40], [2.5, -40, ease.glide]]) });
+    T.rise(parts.s5t, t, 10.15, { each: 0.1 });
+  }
+
+  /* ---------------- S6 ---------------- */
+  if (t > 11.9) {
+    const L = t - S[5].start;
+    MM.camera($('#s6'), { zoom: kf(L, [[0, 1.05], [3.5, 1.0, ease.glide]]) });
+    T.track($('#t1'), t, 12.85, { dur: 1.1, from: 0.22, to: -0.04 });
+    T.track($('#t2'), t, 12.98, { dur: 1.1, from: 0.22, to: -0.04 });
+    const m = t < 13.95 ? 0 : spring.pop(t - 13.95);
+    set($('#mark'), { scale: m, rot: (1 - m) * -90 });
+    T.rise(parts.s6sub, t, 13.6, { each: 0.06 });
+    set($('#s6url'), { opacity: prog(t, 14.1, 0.4), y: (1 - prog(t, 14.1, 0.5)) * 20 });
+  }
+  return MM.flush();
+};
+</script>
+<script src="footage.js" onerror="void 0"></script>
+</body>
+</html>

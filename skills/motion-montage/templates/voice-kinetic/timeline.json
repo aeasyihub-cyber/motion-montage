@@ -1,0 +1,146 @@
+{
+ "words": [
+  {
+   "w": "This",
+   "s": 0.25,
+   "e": 0.67,
+   "line": 0,
+   "emph": false
+  },
+  {
+   "w": "video",
+   "s": 0.73,
+   "e": 1.18,
+   "line": 0,
+   "emph": false
+  },
+  {
+   "w": "never",
+   "s": 1.24,
+   "e": 1.69,
+   "line": 0,
+   "emph": false
+  },
+  {
+   "w": "touched",
+   "s": 1.75,
+   "e": 2.26,
+   "line": 0,
+   "emph": false
+  },
+  {
+   "w": "an",
+   "s": 2.32,
+   "e": 2.68,
+   "line": 0,
+   "emph": false
+  },
+  {
+   "w": "editing",
+   "s": 2.74,
+   "e": 3.25,
+   "line": 0,
+   "emph": true
+  },
+  {
+   "w": "app.",
+   "s": 3.31,
+   "e": 3.73,
+   "line": 0,
+   "emph": false
+  },
+  {
+   "w": "No",
+   "s": 4.34,
+   "e": 4.7,
+   "line": 1,
+   "emph": false
+  },
+  {
+   "w": "camera.",
+   "s": 4.76,
+   "e": 5.27,
+   "line": 1,
+   "emph": false
+  },
+  {
+   "w": "No",
+   "s": 5.33,
+   "e": 5.69,
+   "line": 1,
+   "emph": false
+  },
+  {
+   "w": "designer.",
+   "s": 5.75,
+   "e": 6.32,
+   "line": 1,
+   "emph": true
+  },
+  {
+   "w": "Just",
+   "s": 6.93,
+   "e": 7.35,
+   "line": 2,
+   "emph": false
+  },
+  {
+   "w": "code",
+   "s": 7.41,
+   "e": 7.83,
+   "line": 2,
+   "emph": true
+  },
+  {
+   "w": "and",
+   "s": 7.89,
+   "e": 8.28,
+   "line": 2,
+   "emph": false
+  },
+  {
+   "w": "a",
+   "s": 8.34,
+   "e": 8.67,
+   "line": 2,
+   "emph": false
+  },
+  {
+   "w": "voice.",
+   "s": 8.73,
+   "e": 9.21,
+   "line": 2,
+   "emph": false
+  }
+ ],
+ "lines": [
+  {
+   "text": "This video never touched an editing app.",
+   "key": "hook",
+   "s": 0.25,
+   "e": 3.73,
+   "said": "This video never touched an editing app."
+  },
+  {
+   "text": "No camera. No designer.",
+   "key": "nocam",
+   "s": 4.34,
+   "e": 6.32,
+   "said": "No camera. No designer."
+  },
+  {
+   "text": "Just code and a voice.",
+   "key": "code",
+   "s": 6.93,
+   "e": 9.21,
+   "said": "Just code and a voice."
+  }
+ ],
+ "markers": {
+  "hook": 0.25,
+  "nocam": 4.34,
+  "code": 6.93
+ },
+ "diffs": [],
+ "duration": 9.21
+}

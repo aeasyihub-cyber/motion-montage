@@ -1,0 +1,22 @@
+{
+  "name": "motion-montage",
+  "version": "1.0.0",
+  "description": "A motion studio in a skill: kinetic typography, montage edits, transitions, camera, motion blur and sound design, rendered from code, with a team of director, timing, storyboard, motion, editor, sound and critic agents.",
+  "author": {
+    "name": "AEasyI"
+  },
+  "license": "MIT",
+  "keywords": [
+    "video",
+    "motion-graphics",
+    "kinetic-typography",
+    "montage",
+    "reels",
+    "shorts",
+    "after-effects",
+    "playwright",
+    "ffmpeg"
+  ],
+  "homepage": "https://github.com/aeasyihub-cyber/motion-montage",
+  "repository": "https://github.com/aeasyihub-cyber/motion-montage"
+}

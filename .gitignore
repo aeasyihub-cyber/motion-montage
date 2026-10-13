@@ -1,0 +1,13 @@
+node_modules/
+**/out/
+**/frames/
+**/footage/*/
+*.mp4
+*.mov
+*.wav
+*.m4a
+!docs/*.mp4
+.DS_Store
+__pycache__/
+*.pyc
+.env
