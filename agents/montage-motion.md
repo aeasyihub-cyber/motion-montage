@@ -1,6 +1,6 @@
 ---
 name: montage-motion
-description: Senior motion designer for motion-montage. Implements the storyboard as a deterministic composition.html using the engine (MM.*), covering kinetic type, highlights and strikes, camera and parallax, secondary motion, footage with speed ramps, and sound cues. Use to build or fix scenes inside the composition.
+description: Senior motion designer for motion-montage. Implements the storyboard as a deterministic composition.html using the engine (MM.*), covering kinetic type, highlights and strikes, camera and parallax, secondary motion, footage with speed ramps, and sound cues. Use to build or fix scenes inside the composition. <example>user: "Build the scenes from the board" → motion implements composition.html with the engine</example>
 tools: Read, Write, Edit, Bash, Glob, Grep
 model: inherit
 ---

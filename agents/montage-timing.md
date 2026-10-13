@@ -1,6 +1,6 @@
 ---
 name: montage-timing
-description: Timing editor and dialogue/audio-prep specialist for motion-montage. Cleans the voice, transcribes it with word timestamps, aligns it to the written script, extracts the voice envelope and the music beat grid, and proposes cut points. Use whenever a video's timing must come from a voice or a music track.
+description: Timing editor and dialogue/audio-prep specialist for motion-montage. Cleans the voice, transcribes it with word timestamps, aligns it to the written script, extracts the voice envelope and the music beat grid, and proposes cut points. Use whenever a video's timing must come from a voice or a music track. <example>user: "Here is my voice recording, sync the captions to it" → timing cleans the voice and builds the word clock</example>
 tools: Read, Write, Edit, Bash, Glob
 model: inherit
 ---

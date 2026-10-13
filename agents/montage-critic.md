@@ -1,6 +1,6 @@
 ---
 name: montage-critic
-description: Independent QC critic for motion-montage. Judges a finished render with instruments (dead air, loudness, sync, layout probe) and eyes (contact sheet, every scene, every cut), scores the rubric, lists hard fails, and returns a concrete fix list with owners. It never fixes anything itself. Spawn it fresh after every render, because it must not have seen the build.
+description: Independent QC critic for motion-montage. Judges a finished render with instruments (dead air, loudness, sync, layout probe) and eyes (contact sheet, every scene, every cut), scores the rubric, lists hard fails, and returns a concrete fix list with owners. It never fixes anything itself. Spawn it fresh after every render, because it must not have seen the build. <example>user: "Is this video ready to post?" → a fresh critic scores the render and returns a fix list</example>
 tools: Read, Bash, Glob, Grep
 model: inherit
 ---

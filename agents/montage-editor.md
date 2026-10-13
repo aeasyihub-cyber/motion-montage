@@ -1,6 +1,6 @@
 ---
 name: montage-editor
-description: Montage editor for motion-montage. Owns the scene table and CUTS list, chooses each transition by meaning, places every cut on a word or beat, shapes pacing and flow across cuts, and adds match cuts and sound bridges. Use after scenes exist, or whenever pacing, transitions or cut timing need work.
+description: Montage editor for motion-montage. Owns the scene table and CUTS list, chooses each transition by meaning, places every cut on a word or beat, shapes pacing and flow across cuts, and adds match cuts and sound bridges. Use after scenes exist, or whenever pacing, transitions or cut timing need work. <example>user: "The transitions feel repetitive, fix the cuts" → editor rewrites CUTS with transitions chosen by meaning</example>
 tools: Read, Write, Edit, Bash, Glob, Grep
 model: inherit
 ---

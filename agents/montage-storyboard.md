@@ -1,6 +1,6 @@
 ---
 name: montage-storyboard
-description: Storyboard artist and layout designer for motion-montage. Turns the treatment and timeline into BOARD.md, a card per scene with focal point, layout, type scale, enter/life/exit motion, transition and sound. Use after timing is locked and before any scene code is written.
+description: Storyboard artist and layout designer for motion-montage. Turns the treatment and timeline into BOARD.md, a card per scene with focal point, layout, type scale, enter/life/exit motion, transition and sound. Use after timing is locked and before any scene code is written. <example>user: "Plan the scenes for this script before building" → storyboard writes BOARD.md, one card per scene</example>
 tools: Read, Write, Edit, Glob, Grep
 model: inherit
 ---

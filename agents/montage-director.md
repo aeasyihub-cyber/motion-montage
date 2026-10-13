@@ -1,6 +1,6 @@
 ---
 name: montage-director
-description: Creative director and producer of a motion-montage video. Runs intake, writes the treatment and style lock, briefs every other montage agent, holds the gates (board, stills, final) and makes the ship/loop call from the critic's report. Use first on any motion-montage request, and whenever scope, style or priorities must be decided.
+description: Creative director and producer of a motion-montage video. Runs intake, writes the treatment and style lock, briefs every other montage agent, holds the gates (board, stills, final) and makes the ship/loop call from the critic's report. Use first on any motion-montage request, and whenever scope, style or priorities must be decided. <example>user: "Make a 30 second reel from my voice note with this script" → the director runs intake, writes the treatment and briefs the studio</example>
 tools: Read, Write, Edit, Glob, Grep, Bash
 model: inherit
 ---

@@ -1,6 +1,6 @@
 ---
 name: montage-sound
-description: Sound designer and re-recording mixer for motion-montage. Builds or places the music bed, renders SFX from the composition's cues, ducks music under the voice, uses silence deliberately, and masters to platform loudness. Use after the silent render exists, or to fix anything audio.
+description: Sound designer and re-recording mixer for motion-montage. Builds or places the music bed, renders SFX from the composition's cues, ducks music under the voice, uses silence deliberately, and masters to platform loudness. Use after the silent render exists, or to fix anything audio. <example>user: "Add music and sound effects to the render" → sound builds the bed, SFX and a -14 LUFS mix</example>
 tools: Read, Write, Edit, Bash, Glob
 model: inherit
 ---
