@@ -55,6 +55,7 @@ First-time setup: `cd $E && npm install && npx playwright install chromium`, plu
 
 ```bash
 bash   $E/voice/clean_voice.sh raw.m4a voice-clean.wav [rnnoise.rnnn]
+python3 $E/voice/separate.py old-video.mp4 --out voice.wav --model UVR-MDX-NET-Voc_FT.onnx   # remake mode: no raw voice? pull it out of the old video
 python3 $E/voice/transcribe.py voice-clean.wav --lang en --out words.json
 python3 $E/voice/align.py --words words.json --script script.txt --out project/timeline.json   # also writes timeline.js
 python3 $E/voice/envelope.py voice-clean.wav --out project/voice-env.js                       # for waveforms / audio-reactive motion
@@ -64,6 +65,7 @@ python3 $E/audio/beats.py music.mp3 --out beats.json                            
 - Report every difference `align.py` finds between what was written and what was said. **Captions follow what was said.**
 - Pauses longer than 0.6 s are natural cut points. A downbeat is a natural scene change.
 - See `references/voice-pipeline.md`. Never apply heavy noise reduction (it sounds underwater).
+- **Remake mode** (the user gives an existing video to improve): separate the voice, transcribe it (`--parakeet` works offline for English), and look in the pauses for sound effects from the old mix bleeding into the voice stem. Gate them out before mixing. Lift the user's own assets (logo, images) from the old frames only if no originals are supplied, and ask for the originals in the delivery note.
 
 ## Phase 2: Treatment and style lock (`montage-director`)
 
@@ -93,6 +95,8 @@ Rules to board by (from `references/composition-layout.md` and `references/rhyth
 - **Frame 0 is a designed frame.** It is the thumbnail, so it can't be an empty background.
 - **Vary the cut.** Don't use the same transition twice in a row. Choose each one by meaning (see `references/transitions.md`).
 - **Don't duplicate captions.** If the words are already big on screen, hide the caption box.
+- **Ghost karaoke** fills a frame that would otherwise wait for words. Show the whole line at 13–16% opacity and light each word as it's spoken (`onWords(...,'fade',{dim:.16})`, or a punch). It gives frame 0 a full thumbnail too.
+- **Slot, then payoff.** A container (a yellow block, a card) lands 0.5–1.5 s before its hero word, and the word slams into it on the onset. Never leave a CTA line alone on a bare background.
 
 ## Phase 4: Build (`montage-motion`, then `montage-editor`)
 
@@ -122,7 +126,7 @@ Run `--qc` until it's clean, or until every remaining flag is explained (for exa
 node $E/render.mjs --comp project/composition.html --workers <cores> --shutter 2    # true motion blur
 ```
 
-`--shutter 2` blends 2 sub-frames per frame on a 180° shutter, so fast moves blur like a camera. Use 4 for hero shots at 24 fps.
+`--shutter 4` blends 4 sub-frames per frame on a 180° shutter, so fast moves smear like a camera. Use it for every final render that has zoom, stack, panel or whip transitions. `--shutter 2` is only for drafts: on moves faster than about 40 px/frame it leaves **double images** (two sharp copies), which the critic will fail.
 Outputs: `out/video-silent.mp4` and `out/cues.json`.
 
 ## Phase 7: Sound (`montage-sound`)

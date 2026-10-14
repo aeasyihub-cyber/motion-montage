@@ -16,6 +16,7 @@ Type is the actor. Its size, weight and timing perform the voice.
 | Function | Use for | Feel |
 |---|---|---|
 | `rise(items,t,start,{each,dur,blur})` | default line/word reveal inside masks | editorial, clean |
+| `onWords(items,t,times,'fade',{dim:.16})` | **ghost karaoke**: the whole line is visible faintly and lights up word by word | full frames, readable thumbnail |
 | `onWords(items,t,times,'rise'/'pop'/'fade')` | **voice mode**: every word appears on its spoken onset | synced, alive |
 | `pop` / `onWords(...,'pop')` | short punchy words, negations, numbers | energetic |
 | `cascade(chars,t,start,{sp:spring.land})` | hero hooks, titles (Latin only) | premium, physical |

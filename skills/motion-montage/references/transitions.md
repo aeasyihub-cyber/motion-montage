@@ -13,7 +13,7 @@ A transition is a sentence connector. "And" is a cut. "Meanwhile" is a dissolve.
 | `zoom` | diving deeper, "inside this…", focus | 0.45–0.6 | `to`, `from`, `origin` | low whoosh (pitch 0.7) |
 | `iris` | reveal from a specific point (a dot, a button) | 0.5–0.7 | `x`, `y` (%) | pop at the start |
 | `slats` | graphic / editorial / data | 0.5–0.7 | `n` (5–9), `dir` | whoosh |
-| `sweep` | bold brand moment, covering a big change | 0.6–0.8 | `colors:[…]` (1–3), `dir`, `skew` | whoosh |
+| `sweep` | bold brand moment, covering a big change | 0.6–0.8 | `colors:[…]` (1–3), `dir`, `skew` | whoosh. ⚠ its middle frame is pure panel, so content must ride the panel edge or the critic fails it (H8). Prefer `wipe` unless you design that. |
 | `stack` | "here's another", cards, app-like | 0.6–0.75 | `radius` | whoosh |
 | `dissolve` | time passing, calm, luxury | 0.6–1.2 | `blur` | none, or the music carries it |
 | `dip` | full stop, before the logo/end card | 0.6–1.0 | `color` | silence, then a hit |

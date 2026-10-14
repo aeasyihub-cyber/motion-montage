@@ -86,16 +86,29 @@ def main():
     if a.timeline:
         tl = json.load(open(a.timeline, encoding='utf-8'))
         onsets = [w['s'] for w in tl.get('words', [])]
-        events = []
+        ends = [w['e'] for w in tl.get('words', [])]
+        cues = []
         if a.cues:
-            cj = json.load(open(a.cues)); events = [c['t'] for c in (cj['cues'] if isinstance(cj, dict) else cj) if c['type'] in ('pop', 'swish', 'hit', 'whoosh')]
-        off = []
-        for t in events:
-            d = min((abs(t - o) for o in onsets), default=0)
+            cj = json.load(open(a.cues)); cues = [c for c in (cj['cues'] if isinstance(cj, dict) else cj) if c['type'] in ('pop', 'swish', 'hit', 'whoosh')]
+        # each accent type is judged against its own rule (see references/rhythm-editing.md):
+        #   pop / hit → word ONSET ±50 ms · swish (strike) → word END ±150 ms
+        #   whoosh (cut) → 0–150 ms BEFORE an onset (the cut-ahead rule) · cue with "free":true → skipped
+        off, bad = [], []
+        for c in cues:
+            t = c['t']
+            if c.get('free'): continue
+            if c['type'] == 'whoosh':
+                ahead = [o - t for o in onsets if -0.02 <= o - t <= 0.15]
+                d = 0 if ahead else min(abs(t - o) for o in onsets)
+                ok = bool(ahead) or d <= 0.05
+            elif c['type'] == 'swish':
+                d = min(min(abs(t - e) for e in ends), min(abs(t - o) for o in onsets)); ok = d <= 0.15
+            else:
+                d = min(abs(t - o) for o in onsets); ok = d <= 0.05
             off.append(d)
-        R['sync'] = dict(events=len(events), within_50ms=sum(d <= 0.05 for d in off), worst=round(max(off), 3) if off else 0)
-        late = [round(t, 2) for t, d in zip(events, off) if d > 0.12]
-        if late: warns.append(f'{len(late)} accent(s) > 0.12 s from any spoken word: {late[:8]} — intended (music hit)? else re-time')
+            if not ok: bad.append((round(t, 2), c['type'], round(d, 2)))
+        R['sync'] = dict(events=len(off), in_rule=len(off) - len(bad), worst=round(max(off), 3) if off else 0, off_rule=bad)
+        if bad: warns.append(f'{len(bad)} accent(s) outside their sync rule: {bad[:8]} — deliberate? mark the cue {{"free":true}}, else re-time')
         end_voice = tl.get('duration') or (onsets and tl['words'][-1]['e'])
         if end_voice and R['format']['duration'] - end_voice > 2.5:
             warns.append(f'video runs {R["format"]["duration"] - end_voice:.1f}s past the last word (CTA hold should be ~1.2–2 s)')

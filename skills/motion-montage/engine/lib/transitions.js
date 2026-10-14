@@ -37,6 +37,12 @@
     const v = ((e(clamp(p + h)) - e(clamp(p - h))) / (2 * h)) * (dist / dur); // px/s
     return clamp((v / 60) * 0.5 * k, 0, 80); // 60fps, 180° shutter
   }
+  // blur for any position function f(p) (px) across a transition of `dur` seconds
+  function velBlur(f, p, dur, k = 0.6) {
+    const h = 0.004;
+    const v = ((f(clamp(p + h)) - f(clamp(p - h))) / (2 * h)) / dur; // px/s
+    return clamp(Math.abs(v) / 60 * 0.5 * k, 0, 80);
+  }
   const dirVec = { left: [-1, 0], right: [1, 0], up: [0, -1], down: [0, 1] };
 
   const TX = {
@@ -53,11 +59,12 @@
     },
 
     /* the "rising panel" — B arrives as a rounded sheet from below, A recedes (AEasyI signature) */
-    panel(p, A, B, o) {
-      const q = (o.ease || ease.inOutQuart)(p);
+    panel(p, A, B, o, ctx) {
+      const e = o.ease || ease.inOutQuart, q = e(p);
       const rad = mix(o.radius ?? 64, 0, ease.inCubic(p));
-      set(B, { clip: `inset(${((1 - q) * 100).toFixed(2)}% 0 0 0 round ${rad.toFixed(1)}px ${rad.toFixed(1)}px 0 0)`, z: 2, y: (1 - q) * 140 });
-      set(A, { scale: 1 - q * 0.06, y: -q * 120, bright: 1 - q * 0.35, origin: '50% 30%' });
+      const bB = velBlur((pp) => (1 - e(pp)) * 140, p, ctx.dur), bA = velBlur((pp) => -e(pp) * 120, p, ctx.dur);
+      set(B, { clip: `inset(${((1 - q) * 100).toFixed(2)}% 0 0 0 round ${rad.toFixed(1)}px ${rad.toFixed(1)}px 0 0)`, z: 2, y: (1 - q) * 140, mb: [0, bB] });
+      set(A, { scale: 1 - q * 0.06, y: -q * 120, bright: 1 - q * 0.35, origin: '50% 30%', mb: [0, bA] });
     },
 
     /* push: both scenes travel together. Directional motion blur from real velocity. */
@@ -84,7 +91,7 @@
       const a = clamp(p / 0.55), b = clamp((p - 0.4) / 0.6);
       const ea = ease.inExpo(a), eb = ease.outExpo(b);
       set(A, { scale: mix(1, o.to ?? 2.8, ea), blur: ea * 22, opacity: 1 - clamp((a - 0.6) / 0.4), origin: o.origin || '50% 50%' });
-      set(B, { scale: mix(o.from ?? 0.72, 1, eb), blur: (1 - eb) * 18, opacity: clamp(b * 2.5), z: 2, origin: o.origin || '50% 50%' });
+      set(B, { scale: mix(o.from ?? 0.72, 1, eb), blur: (1 - eb) * (o.blurB ?? 18), opacity: clamp(b * 2.5), z: 2, origin: o.origin || '50% 50%' });
     },
 
     /* iris: a circle opens from a point (a dot, a word, a button) */
@@ -134,11 +141,12 @@
     },
 
     /* stack: A shrinks into a card and lifts away, B slides up as a card and unfolds full-frame */
-    stack(p, A, B, o) {
+    stack(p, A, B, o, ctx) {
       const q = ease.snap(p), r = o.radius ?? 56;
-      set(A, { scale: mix(1, 0.86, ease.inOutCubic(p)), y: -q * 140, bright: 1 - q * 0.45, clip: `inset(0 round ${(ease.outCubic(p) * r).toFixed(1)}px)` });
+      const fB = (pp) => (1 - ease.snap(clamp((pp - 0.12) / 0.88))) * H() * 0.9;
+      set(A, { scale: mix(1, 0.86, ease.inOutCubic(p)), y: -q * 140, bright: 1 - q * 0.45, clip: `inset(0 round ${(ease.outCubic(p) * r).toFixed(1)}px)`, mb: [0, velBlur((pp) => -ease.snap(pp) * 140, p, ctx.dur)] });
       const b = ease.snap(clamp((p - 0.12) / 0.88));
-      set(B, { y: (1 - b) * H() * 0.9, scale: mix(0.86, 1, ease.inOutCubic(clamp((p - 0.45) / 0.55))), clip: `inset(0 round ${((1 - clamp((p - 0.6) / 0.4)) * r).toFixed(1)}px)`, z: 2 });
+      set(B, { mb: [0, velBlur(fB, p, ctx.dur)], y: (1 - b) * H() * 0.9, scale: mix(0.86, 1, ease.inOutCubic(clamp((p - 0.45) / 0.55))), clip: `inset(0 round ${((1 - clamp((p - 0.6) / 0.4)) * r).toFixed(1)}px)`, z: 2 });
     },
 
     /* dissolve: soft blur cross-fade (calm, luxury, time passing) */
@@ -158,6 +166,7 @@
     },
   };
   MM.TX = TX;
+  MM.velBlur = velBlur;
 
   /* ---------- the edit driver ---------- */
   MM.edit = function (t, scenes, cuts = []) {

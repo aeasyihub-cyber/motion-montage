@@ -18,9 +18,14 @@ The order matters:
 - Targets: noise in pauses below −55 dB, a bright and present voice, no sibilant spikes.
 - RNNoise models: <https://github.com/GregorR/rnnoise-models> (`sh.rnnn` is a good general model).
 
+## 1b. Separate (`voice/separate.py`), when only a finished video exists
+
+- A UVR MDX vocal model via sherpa-onnx: CPU, chunked, about 50 s for a 40 s clip on 2 cores. The model downloads from GitHub releases.
+- The stem is good, but **old sound effects bleed in**: whooshes and swishes from the old edit survive as tonal noise. Find them in the pauses between words: segments with energy above −40 dB, a spectral centroid around 2–3 kHz and lining up with the old cut times. Gate those windows to −30 dB with 25 ms fades.
+
 ## 2. Transcribe (`voice/transcribe.py`)
 
-- It tries `faster-whisper` (recommended: `pip install faster-whisper`) and falls back to `openai-whisper`. Both give word timestamps.
+- Backends: `--parakeet DIR` (sherpa-onnx Parakeet TDT 0.6B v2: English, very accurate, downloads from GitHub, so it works offline), then `faster-whisper`, then `openai-whisper`.
 - `--lang` matters for accuracy (`en`, `ar`, `hu`, `tr`, …). Use model `medium` or larger for non-English and dialects.
 - Whisper may "correct" dialect spellings. `align.py` maps the heard words back onto the user's own script.
 
