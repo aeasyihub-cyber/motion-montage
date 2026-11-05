@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.0 (2026-11-05): lessons from the Arabic Claude-montage reel
+- New `engine/align/` (esalign, refine_pauses, phrase_even, snap_minima, dp_align): forced alignment with no ASR model (eSpeak NG + MFCC DTW), for blocked networks and Arabic dialects.
+- Ghost karaoke is now opt-in. New intake step: ask the reveal style and show what each option does (`references/reveal-styles.md`).
+- New sync rule: text, images and cards appear on the onset of the word that names them.
+- New light "Sky Light" preset; delivery notes (light phone copy, limiter, duplicated-word cut, voice stays untouched).
+
 ## 1.1.0 (2026-10-14): lessons from the first real remake
 - New `voice/separate.py`: pulls the voice out of a finished video (UVR via sherpa-onnx), for remaking an old video.
 - `transcribe.py`: new `--parakeet` backend (sherpa-onnx Parakeet TDT). Offline, accurate English word onsets.

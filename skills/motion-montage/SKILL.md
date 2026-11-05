@@ -56,6 +56,8 @@ First-time setup: `cd $E && npm install && npx playwright install chromium`, plu
 ```bash
 bash   $E/voice/clean_voice.sh raw.m4a voice-clean.wav [rnnoise.rnnn]
 python3 $E/voice/separate.py old-video.mp4 --out voice.wav --model UVR-MDX-NET-Voc_FT.onnx   # remake mode: no raw voice? pull it out of the old video
+# no ASR model reachable (blocked network, Arabic dialect)? align the script to the voice with eSpeak + DTW; see references/no-asr-alignment.md
+python3 $E/align/esalign.py --audio voice.wav --script script.txt --lang ar --out words.json
 python3 $E/voice/transcribe.py voice-clean.wav --lang en --out words.json
 python3 $E/voice/align.py --words words.json --script script.txt --out project/timeline.json   # also writes timeline.js
 python3 $E/voice/envelope.py voice-clean.wav --out project/voice-env.js                       # for waveforms / audio-reactive motion
@@ -95,7 +97,8 @@ Rules to board by (from `references/composition-layout.md` and `references/rhyth
 - **Frame 0 is a designed frame.** It is the thumbnail, so it can't be an empty background.
 - **Vary the cut.** Don't use the same transition twice in a row. Choose each one by meaning (see `references/transitions.md`).
 - **Don't duplicate captions.** If the words are already big on screen, hide the caption box.
-- **Ghost karaoke** fills a frame that would otherwise wait for words. Show the whole line at 13–16% opacity and light each word as it's spoken (`onWords(...,'fade',{dim:.16})`, or a punch). It gives frame 0 a full thumbnail too.
+- **Reveal style: ASK, never assume.** Before the storyboard, ask which text style the user wants and show these options with what each does to the video (details in `references/reveal-styles.md`): **Sync-only** (default: nothing is visible until its word is spoken), **Ghost karaoke** (whole line faintly visible, lit word by word: fills frames and thumbnails, but the viewer reads ahead of the voice), **Hero words only** (only key words on screen, big), **Captions bar** (small lower-third, voice-led). Never use ghost text unless the user chose it; some clients reject it as "text before the voice".
+- **Sync rule.** Text, images, icons and skill cards appear on the onset of the word that names them (±0.1 s), never before and never long after. A card or list row has its own word. Check this per element in QC.
 - **Slot, then payoff.** A container (a yellow block, a card) lands 0.5–1.5 s before its hero word, and the word slams into it on the onset. Never leave a CTA line alone on a bare background.
 
 ## Phase 4: Build (`montage-motion`, then `montage-editor`)

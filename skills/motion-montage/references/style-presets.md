@@ -45,6 +45,9 @@ Swap the `:root` tokens in the template. All fonts are free (OFL) and on npm as 
 
 ---
 
+## 7. Sky Light (soft, easy on the eye)
+See `reveal-styles.md` for the palette values. Light background, white cards, one blue key colour, one warm accent for the payoff only.
+
 ## Building a brand preset from a logo
 1. Sample 2–3 colours from the logo (dominant plus accent). Add a light and a dark neutral tuned toward the brand hue.
 2. Match the type personality: geometric logo → geometric sans; serif logo → serif display plus a neutral sans.
